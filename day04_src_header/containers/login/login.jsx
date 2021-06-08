@@ -1,14 +1,48 @@
 import React, { Component } from 'react'
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { connect } from 'react-redux'
+import {Redirect} from 'react-router-dom'
+import { createSaveUserInfoAction } from '../../redux/action_creators/login_action'
+import {reqLogin} from '../../api'
 import './css/login.less'
 import logo from './img/logo.png'
 
-export default class Login extends Component {
-  onFinish = (values) => {
+
+@connect(
+  state => ({isLogin:state.userInfo.isLogin}),
+  {
+    saveUserInfo: createSaveUserInfoAction
+  }
+)
+class Login extends Component {
+  onFinish = async values => {
     console.log('Received values of form: ', values);
-    //点击登录的回调
-    alert('登录')
+    //这里可以直接处理返回的promise
+    /* reqLogin(values)
+      .then((result)=>{
+        console.log(result);
+      })
+      .catch((reason)=>{
+        console.log(reason);
+      }) */
+    
+    //这里将对promise的处理放在拦截器中进行处理,只接收请求成功(不是验证成功)的数据result
+    let result = await reqLogin(values)
+    console.log(result);
+    const { status, data, msg } = result
+    if (status===0) {//登录成功时可以接收到验证成功的数据data
+      console.log(data);
+      //1.服务器返回的user信息,还有token交给redux管理
+      this.props.saveUserInfo(data)
+      //2.跳转admin页面:三种实现方式:<Link>或<NavLink>或this.props.history
+      //这里使用history的replace方法. 无法使用<Link>或<NavLink>
+      this.props.history.replace('/admin')
+      
+    } else {//登录失败时可以接收到验证错误的信息msg,警告弹出框持续时间1s
+      message.warning(msg,1)
+    }
+    
   };
   pwdValidator=(_, value) => {
     let errMsgArr=[]
@@ -21,6 +55,11 @@ export default class Login extends Component {
    
   }
   render() {
+    
+    const { isLogin } = this.props
+    if (isLogin) {
+      return <Redirect to="/admin"/>
+    }
     return (
       <div className="login">
         <header>
@@ -39,6 +78,13 @@ export default class Login extends Component {
           >
             <Form.Item
               name="username"
+              /* 用户名/密码要求"
+                1.必须输入
+                2.大于等于4位
+                3.小于等于12位
+                4.必须是字母数字下划线
+               */
+              /* 在antd中声明式校验:自己不去实际判断,只是 */
               rules={[
                 {
                   required: true,
@@ -97,3 +143,12 @@ export default class Login extends Component {
     );
   }
 }
+export default Login
+
+//使用装饰器语法替代
+/* export default connect(
+  state => ({isLogin:state.userInfo.isLogin}),
+  {
+    saveUserInfo: createSaveUserInfoAction
+  }
+)(Login) */
