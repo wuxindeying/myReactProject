@@ -1,12 +1,18 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux'
 import { Card, Button, Select, Input,Table, message  } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
-import { reqProductList,reqUpdateProductStatus,reqSearchProductList } from '../../api/index'
+import { reqProductList, reqUpdateProductStatus, reqSearchProductList } from '../../api/index'
+import {createSaveProductList} from '../../redux/action_creators/product_action'
 import {PAGE_SIZE} from '../../config/index'
 
 const { Option } = Select;
 
-export default class Product extends Component {
+@connect(
+  state => ({ productList: state.productList }),
+  {createSaveProductList}
+)
+class Product extends Component {
   
   state = {
     productList: [],//商品列表数据
@@ -40,6 +46,8 @@ export default class Product extends Component {
         total: data.total,
         pageNum:data.pageNum,
       })
+      //把获取的商品列表存入redux中
+      this.props.createSaveProductList(data.list)
     } else {
       message.error('初始化商品列表失败')
     }
@@ -121,15 +129,15 @@ export default class Product extends Component {
       },
       {
         title: '操作',
-        dataIndex: 'opera',
+        //dataIndex: 'opera',
         key: 'opera',
         align: 'center',
         width:'10%',
-        render:()=>{
+        render:(item)=>{
           return (
             <div>
-              <Button type="link">详情</Button><br/>
-              <Button type="link">修改</Button><br/>
+              <Button type="link" onClick={()=>{this.props.history.push(`/admin/prod_about/product/detail/${item._id}`)}}>详情</Button><br/>
+              <Button type="link" onClick={()=>{this.props.history.push('/admin/prod_about/product/add_update/456')}}>修改</Button><br/>
             </div>
           )
         }
@@ -161,7 +169,7 @@ export default class Product extends Component {
           </div>
         }
         extra={
-          <Button type="primary">
+          <Button type="primary" onClick={()=>{this.props.history.push('/admin/prod_about/product/add_update')}}>
             <PlusOutlined />
             添加商品
           </Button>
@@ -183,3 +191,4 @@ export default class Product extends Component {
     );
   }
 }
+export default Product

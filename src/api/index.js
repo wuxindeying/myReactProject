@@ -52,3 +52,5 @@ export const reqProductList = (pageNum, pageSize) => myAxios.get(`${BASE_URL}/ma
 export const reqUpdateProductStatus = (productId, status) => myAxios.post(`${BASE_URL}/manage/product/updateStatus`, { productId, status })
 //根据名字和描述搜索商品分页列表
 export const reqSearchProductList = (pageNum, pageSize, searchType, keyWord) =>myAxios.get(`${BASE_URL}/manage/product/search`, { params: { pageNum, pageSize, [searchType]:keyWord} })
+//根据商品id获取商品信息
+export const reqSearchProductById = (productId) =>myAxios.get(`${BASE_URL}/manage/product/info`, { params: { productId } })

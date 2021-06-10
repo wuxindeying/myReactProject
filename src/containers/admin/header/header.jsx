@@ -69,7 +69,9 @@ class Header extends Component {
   }
   getTitle = () => {
     //console.log('---getTitle---');
-    let pathKey = this.props.location.pathname.split('/').pop()
+    let {pathname}=this.props.location
+    let pathKey = pathname.split('/').pop()
+    if (pathname.indexOf('product')!==-1) pathKey='product'//为了匹配product下的Detail和AddUpadte子路由
     let title=''
     menuList.forEach((item)=>{
       if (item.children instanceof Array) {

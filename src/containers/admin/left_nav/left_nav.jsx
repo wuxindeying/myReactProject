@@ -45,6 +45,7 @@ class LeftNav extends Component {
     })
   }
   render() {
+    let {pathname}=this.props.location
     return (
       <div>
         <header className="nav-header">
@@ -52,9 +53,9 @@ class LeftNav extends Component {
           <h1>商品管理系统</h1>
         </header>
         <Menu
-          selectedKeys={this.props.location.pathname.split('/').pop()}
+          selectedKeys={pathname.indexOf('product')!==-1?'product':pathname.split('/').pop()}
           //初始选中的菜单项,这里不能设置defaultSelectedKeys,否则只能显示一次(页面路由跳转时,不会一开始就跳转到该页面,设置默认就会出错)
-          defaultOpenKeys={this.props.location.pathname.split('/').splice(2)}//初始展开的菜单项
+          defaultOpenKeys={pathname.split('/').splice(2)}//初始展开的菜单项
           mode="inline"
           theme="dark"
         >

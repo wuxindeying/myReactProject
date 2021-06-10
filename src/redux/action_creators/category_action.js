@@ -10,7 +10,7 @@ export const saveCategoryAsync=()=>{
   return async(dispatch)=>{
     let result = await reqCategoryList()
     const { status, data, msg } = result
-    console.log(data)
+    //console.log(data)
     if (status===0) {
       dispatch(saveCategory(data))
     } else {
