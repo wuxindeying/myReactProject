@@ -46,7 +46,7 @@ instance.interceptors.response.use(
       //请求失败,提示错误,提示框存在持续时间1s
       message.error(error.message,1)
     }
-    //如果请求失败了,终端promise链
+    //如果请求失败了,中断promise链
     return new Promise(()=>{})
   }
 )
