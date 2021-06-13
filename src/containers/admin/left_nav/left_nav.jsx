@@ -47,7 +47,7 @@ class LeftNav extends Component {
 
   //用于创建菜单的函数
   creatMenu = (menuArr) => {
-    return menuArr.map((menuObj) => {
+    return (menuArr.map((menuObj) => {
       if (this.hasAuth(menuObj)) {
         if (!menuObj.children) {
           return (
@@ -60,7 +60,7 @@ class LeftNav extends Component {
             >
               <Link to={menuObj.path}>{menuObj.title}</Link>
             </Menu.Item>
-          );
+          )
         } else {
           return (
             <SubMenu
@@ -72,8 +72,10 @@ class LeftNav extends Component {
             </SubMenu>
           );
         }
+      } else {
+        return null
       }
-    });
+    }))
   };
   render() {
     let { pathname } = this.props.location;

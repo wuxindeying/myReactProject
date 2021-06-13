@@ -41,7 +41,7 @@ class Category extends Component {
     //先获取Form实例对象
     //debugger
     const { categotryForm } = this.refs;
-    console.log(categotryForm);
+    //console.log(categotryForm);
     if (categotryForm) categotryForm.setFieldsValue({ name: this.name });
     //展示弹窗
     this.setState({
@@ -53,9 +53,9 @@ class Category extends Component {
   handleOk = async () => {
     const { categotryForm } = this.refs;
     //1.获取表单数据
-    console.log(this,categotryForm);
+    //console.log(this,categotryForm);
     const { name } = categotryForm.getFieldsValue();
-    console.log(name);
+    //console.log(name);
     //2.校验数据
     if (!name || !name.trim()) {
       //若输入不合法
