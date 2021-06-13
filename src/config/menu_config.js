@@ -12,7 +12,7 @@ import {
   PieChartOutlined,
 } from '@ant-design/icons';
 
-const arr = [
+let arr = [
   {
     title: '首页', // 菜单标题名称
     key: 'home', // 菜单的标识

@@ -10,3 +10,7 @@ export const CITY = 'beijing'
 
 //表格每页展示条数 
 export const PAGE_SIZE = 5
+//提示展示时间
+export const MESSAGE_TIME = 1
+//图片公共路径
+export const IMAGE_BASE_URL = 	'http://localhost:4000/upload/' 

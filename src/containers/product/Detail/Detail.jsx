@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Button, Card, List, message } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import {BASE_URL} from '../../config/index'
-import {reqSearchProductById,reqCategoryList} from '../../api'
-import "./detail.less";
+import {BASE_URL} from '../../../config/index'
+import {reqSearchProductById,reqCategoryList} from '../../../api/index'
+import "./css/detail.less";
 
 @connect((state) => ({
   productList: state.productList,
@@ -24,7 +24,7 @@ class Detail extends Component {
     isLoading:true
   };
   componentDidMount() {
-    console.log(this.props.categoryList);
+    //console.log(this.props.categoryList);
     const reduxProdList = this.props.productList;
     const reduxcategoryList = this.props.categoryList;
     const { id } = this.props.match.params;

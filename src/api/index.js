@@ -4,11 +4,14 @@ import {
   message
 } from 'antd'
 import myAxios from './myAxios.js'
+import store from '../redux/store'
 import {
   BASE_URL,
   CITY,
   WEATHER_AK
 } from '../config'
+
+const {username} = store.getState().userInfo.user
 
 //登录请求
 export const reqLogin = loginObj => myAxios.post(`${BASE_URL}/login`, loginObj)
@@ -54,3 +57,19 @@ export const reqUpdateProductStatus = (productId, status) => myAxios.post(`${BAS
 export const reqSearchProductList = (pageNum, pageSize, searchType, keyWord) =>myAxios.get(`${BASE_URL}/manage/product/search`, { params: { pageNum, pageSize, [searchType]:keyWord} })
 //根据商品id获取商品信息
 export const reqSearchProductById = (productId) =>myAxios.get(`${BASE_URL}/manage/product/info`, { params: { productId } })
+//请求删除图片(根据图片唯一name删除)
+export const reqDeletePicture = (name) => myAxios.post(`${BASE_URL}/manage/img/delete`, { name })
+//请求添加商品
+export const reqAddProduct = (productObj)=> myAxios.post(`${BASE_URL}/manage/product/add`,productObj)
+//请求修改商品
+export const reqUpdateProduct = (productObj)=> myAxios.post(`${BASE_URL}/manage/product/update`,productObj)
+//请求角色列表
+export const reqRoleList = ()=> myAxios.get('/manage/role/list')
+//请求添加角色
+export const reqAddRole = (roleName)=> myAxios.post('/manage/role/add',{roleName})
+//请求给角色授权
+export const reqAuthRole = (_id,menus)=> myAxios.post('/manage/role/update',{_id,menus,auth_name:username,auth_time:Date.now()})
+//请求用户列表
+export const reqUserList = ()=> myAxios.get('/manage/user/list')
+//请求添加一个用户
+export const reqAddUser = (userObj)=> myAxios.post('/manage/user/add',userObj)
